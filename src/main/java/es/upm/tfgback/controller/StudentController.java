@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -33,6 +34,21 @@ public class StudentController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(students, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @GetMapping("/students/login")
+    public ResponseEntity<HttpStatus> login(@RequestHeader("User") String user, @RequestHeader("Password") String password) {
+        try {
+            Optional<Student> studentData = studentRepository.findByName(user);
+            if (studentData.isPresent() && Objects.equals(studentData.get().getPassword(), password)) {
+                return new ResponseEntity<>(null, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -73,7 +89,7 @@ public class StudentController {
             Optional<Student> studentData = studentRepository.findById(id);
             if (studentData.isPresent()) {
                 List<TFG> tfgs = tfgRepository.findByStudentId(id);
-                if (tfgs.isEmpty()){
+                if (tfgs.isEmpty()) {
                     studentRepository.deleteById(id);
                     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
                 } else {
