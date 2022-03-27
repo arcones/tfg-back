@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import es.upm.tfgback.model.TFG;
 import es.upm.tfgback.repository.TFGRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class TFGController {
 
-    @Autowired
-    TFGRepository tfgRepository;
+    final TFGRepository tfgRepository;
+
+    public TFGController(TFGRepository tfgRepository) {
+        this.tfgRepository = tfgRepository;
+    }
+
+    //TODO borrar controladores que no se usen
 
     @CrossOrigin
     @GetMapping("/tfgs")
@@ -31,6 +35,7 @@ public class TFGController {
         }
     }
 
+    @CrossOrigin
     @GetMapping("/tfgs/students/{studentId}")
     public ResponseEntity<List<TFG>> getTFGByAuthor(@PathVariable("studentId") long studentId) {
         try {

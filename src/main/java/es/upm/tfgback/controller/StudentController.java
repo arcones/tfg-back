@@ -41,11 +41,11 @@ public class StudentController {
 
     @CrossOrigin
     @GetMapping("/students/login")
-    public ResponseEntity<HttpStatus> login(@RequestHeader("User") String user, @RequestHeader("Password") String password) {
+    public ResponseEntity<Student> login(@RequestHeader("User") String user, @RequestHeader("Password") String password) {
         try {
             Optional<Student> studentData = studentRepository.findByName(user);
             if (studentData.isPresent() && Objects.equals(studentData.get().getPassword(), password)) {
-                return new ResponseEntity<>(null, HttpStatus.OK);
+                return new ResponseEntity<>(studentData.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
