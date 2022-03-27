@@ -15,18 +15,26 @@ public class TFG {
     @Column(name = "student_id")
     private long studentId;
 
+    @Column(name = "director_id")
+    private long directorId;
+
+    @Column(name = "status")
+    private String status;
+
     public TFG() {
     }
-    
-    public TFG(long studentId, String title) {
+
+    public TFG(String title, long studentId, long directorId, String status) {
         this.title = title;
         this.studentId = studentId;
+        this.directorId = directorId;
+        this.status = status;
     }
-    
+
     public long getId() {
         return id;
     }
-    
+
     public String getTitle() {
         return title;
     }
@@ -43,12 +51,19 @@ public class TFG {
         this.studentId = studentId;
     }
 
-    @Override
-    public String toString() {
-        return "TFG{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", studentId=" + studentId +
-                '}';
+    public long getDirectorId() {
+        return directorId;
+    }
+
+    public void setDirectorId(long directorId) {
+        this.directorId = directorId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

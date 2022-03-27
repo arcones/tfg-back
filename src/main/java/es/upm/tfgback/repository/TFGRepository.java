@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface TFGRepository extends JpaRepository<TFG, Long> {
     List<TFG> findByStudentId(long studentId);
+    List<TFG> findByDirectorId(long directorId);
 }
