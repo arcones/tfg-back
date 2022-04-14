@@ -9,16 +9,16 @@ public class TFG {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "student_id")
+    @Column(name = "student_id", nullable = false)
     private long studentId;
 
-    @Column(name = "director_id")
+    @Column(name = "director_id", nullable = false)
     private long directorId;
 
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status;
 
     public TFG() {

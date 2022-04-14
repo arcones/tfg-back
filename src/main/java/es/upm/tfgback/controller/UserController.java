@@ -57,12 +57,31 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "There is no user with that ID")
     })
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getDirectorInfo(@PathVariable long id) {
+    public ResponseEntity<User> getDirectorInfo(@PathVariable String id) {
         try {
-            Optional<User> userData = userRepository.findById(id);
+            Optional<User> userData = userRepository.findById(Long.parseLong(id));
             return userData
                     .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                     .orElseGet(() -> new ResponseEntity<>(null, HttpStatus.NOT_FOUND));
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @Operation(summary = "Get users")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Users are returned"),
+            @ApiResponse(responseCode = "404", description = "No users available")
+    })
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getDirectors(@RequestParam(required = false) String role) {
+        try {
+            List<User> directors = userRepository.findByRole(role);
+            if (directors.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(directors, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
