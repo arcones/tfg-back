@@ -1,6 +1,7 @@
 package es.upm.tfgback.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import es.upm.tfgback.model.TFG;
 import es.upm.tfgback.repository.TFGRepository;
@@ -11,6 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.websocket.server.PathParam;
 
 @RestController
 @Tag(name = "TFG", description = "The TFG controller")
@@ -67,6 +70,42 @@ public class TFGController {
         try {
             TFG _tfg = tfgRepository.save(new TFG(tfg.getTitle(), tfg.getStudentId(), tfg.getDirectorId(), "INIT_REQUESTED"));
             return new ResponseEntity<>(_tfg, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @PutMapping("/tfgs/{tfgId}/accept")
+    public ResponseEntity<TFG> acceptTFGReqiest(@PathVariable("tfgId") long tfgId) {
+        try {
+            Optional<TFG> _tfg = tfgRepository.findById(tfgId);
+            if (_tfg.isPresent()) {
+                TFG tfg = _tfg.get();
+                TFG updatedTFG = new TFG(tfgId, tfg.getTitle(), tfg.getStudentId(), tfg.getDirectorId(), "INIT_APPROVED");
+                tfgRepository.save(updatedTFG);
+                return new ResponseEntity<>(updatedTFG, HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @PutMapping("/tfgs/{tfgId}/reject")
+    public ResponseEntity<TFG> rejectTFGReqiest(@PathVariable("tfgId") long tfgId) {
+        try {
+            Optional<TFG> _tfg = tfgRepository.findById(tfgId);
+            if (_tfg.isPresent()) {
+                TFG tfg = _tfg.get();
+                TFG updatedTFG = new TFG(tfgId, tfg.getTitle(), tfg.getStudentId(), tfg.getDirectorId(), "INIT_REJECTED");
+                tfgRepository.save(updatedTFG);
+                return new ResponseEntity<>(updatedTFG, HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

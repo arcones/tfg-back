@@ -24,6 +24,14 @@ public class TFG {
     public TFG() {
     }
 
+    public TFG(long id, String title, long studentId, long directorId, String status) {
+        this.id = id;
+        this.title = title;
+        this.studentId = studentId;
+        this.directorId = directorId;
+        this.status = status;
+    }
+
     public TFG(String title, long studentId, long directorId, String status) {
         this.title = title;
         this.studentId = studentId;
