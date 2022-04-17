@@ -1,13 +1,8 @@
-package es.upm.tfgback.controller;
+package es.upm.tfgapi.controller;
 
-import es.upm.tfgback.model.User;
-import es.upm.tfgback.model.TFG;
-import es.upm.tfgback.repository.UserRepository;
-import es.upm.tfgback.repository.TFGRepository;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import es.upm.tfgapi.model.User;
+import es.upm.tfgapi.repository.UserRepository;
+import es.upm.tfgapi.repository.TFGRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +13,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RestController
-@Tag(name = "User", description = "The user controller")
 @RequestMapping("/api")
 public class UserController {
 
@@ -31,11 +25,6 @@ public class UserController {
     }
 
     @CrossOrigin
-    @Operation(summary = "Login for users")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Credentials are correct"),
-            @ApiResponse(responseCode = "404", description = "Credentials doesn't match with any user in the database")
-    })
     @GetMapping("/users/login")
     public ResponseEntity<User> login(@RequestHeader("Mail") String mail, @RequestHeader("Password") String password) {
         try {
@@ -51,11 +40,6 @@ public class UserController {
     }
 
     @CrossOrigin
-    @Operation(summary = "Get user's information")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "User information provided"),
-            @ApiResponse(responseCode = "404", description = "There is no user with that ID")
-    })
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getDirectorInfo(@PathVariable String id) {
         try {
@@ -69,11 +53,6 @@ public class UserController {
     }
 
     @CrossOrigin
-    @Operation(summary = "Get users")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Users are returned"),
-            @ApiResponse(responseCode = "404", description = "No users available")
-    })
     @GetMapping("/users")
     public ResponseEntity<List<User>> getDirectors(@RequestParam(required = false) String role) {
         try {

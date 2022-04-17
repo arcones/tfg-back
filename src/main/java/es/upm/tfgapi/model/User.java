@@ -1,4 +1,4 @@
-package es.upm.tfgback.model;
+package es.upm.tfgapi.model;
 
 import javax.persistence.*;
 

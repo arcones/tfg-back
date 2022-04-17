@@ -1,6 +1,6 @@
-package es.upm.tfgback.repository;
+package es.upm.tfgapi.repository;
 
-import es.upm.tfgback.model.TFG;
+import es.upm.tfgapi.model.TFG;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

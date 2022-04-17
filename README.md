@@ -1,6 +1,19 @@
-# TODOs
-- Mejorar integrar referencial en BBDD (claves extranjeras)
-- Mejorar BBDD: Un TFG no puede ser dirigido por un user de role "student"
-- Idem (roles solo válidos student y director)
-- Entregar SW con un binario para ejecutar todo (y correr los test modo curl)
-- Entregar SW con BBDD que contega datos de prueba y explicar como usarla
+# tfg-api
+
+## Requisitos
+* Open JDK 11
+
+## Funcionamiento
+Levantar el servidor con el comando:
+
+```bash
+./mvnw clean install spring-boot:run -DskipTests=true
+```
+
+[Acceder a la BBDD](http://localhost:8080/h2-console) con la cadena de conexión y credenciales que podrá encontrar [aquí](./src/main/resources/application.properties) e insertar en la BBDD algunos datos de prueba:
+
+```SQL
+INSERT INTO user (name, password, mail, role)
+VALUES ('Pepa Perez', 'test', 'pepa@perez.com', 'Student'),
+       ('Macu Rolo', 'test', 'macu@rolo.com', 'Director');
+```
