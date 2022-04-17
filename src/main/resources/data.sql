@@ -13,7 +13,9 @@ VALUES ('Akinator', 'test', 'aki@nat.or', 'Student');
 
 UPDATE TFG SET status='INIT_REJECTED' where student_id=8
 
-SELECT * FROM TFG WHERE STATUS='INIT_REQUESTED'
+SELECT * FROM TFG WHERE DIRECTOR_ID=5
+
+DELETE FROM TFG WHERE STUDENT_ID=0
 
 INSERT INTO tfg (title, student_id, director_id, status)
 VALUES ('El titulo de Pepa Perez', 1, 6, 'INIT_REQUESTED'),

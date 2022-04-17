@@ -13,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-
 @RestController
 @Tag(name = "TFG", description = "The TFG controller")
 @RequestMapping("/api")
@@ -77,7 +75,7 @@ public class TFGController {
 
     @CrossOrigin
     @PutMapping("/tfgs/{tfgId}/accept")
-    public ResponseEntity<TFG> acceptTFGReqiest(@PathVariable("tfgId") long tfgId) {
+    public ResponseEntity<TFG> acceptTFGRequest(@PathVariable("tfgId") long tfgId) {
         try {
             Optional<TFG> _tfg = tfgRepository.findById(tfgId);
             if (_tfg.isPresent()) {
@@ -95,12 +93,66 @@ public class TFGController {
 
     @CrossOrigin
     @PutMapping("/tfgs/{tfgId}/reject")
-    public ResponseEntity<TFG> rejectTFGReqiest(@PathVariable("tfgId") long tfgId) {
+    public ResponseEntity<TFG> rejectTFGRequest(@PathVariable("tfgId") long tfgId) {
         try {
             Optional<TFG> _tfg = tfgRepository.findById(tfgId);
             if (_tfg.isPresent()) {
                 TFG tfg = _tfg.get();
                 TFG updatedTFG = new TFG(tfgId, tfg.getTitle(), tfg.getStudentId(), tfg.getDirectorId(), "INIT_REJECTED");
+                tfgRepository.save(updatedTFG);
+                return new ResponseEntity<>(updatedTFG, HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @PutMapping("/tfgs/{tfgId}/readRequest")
+    public ResponseEntity<TFG> requestTFGRead(@PathVariable("tfgId") long tfgId) {
+        try {
+            Optional<TFG> _tfg = tfgRepository.findById(tfgId);
+            if (_tfg.isPresent()) {
+                TFG tfg = _tfg.get();
+                TFG updatedTFG = new TFG(tfgId, tfg.getTitle(), tfg.getStudentId(), tfg.getDirectorId(), "READ_REQUESTED");
+                tfgRepository.save(updatedTFG);
+                return new ResponseEntity<>(updatedTFG, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @PutMapping("/tfgs/{tfgId}/acceptRead")
+    public ResponseEntity<TFG> acceptTFGRead(@PathVariable("tfgId") long tfgId) {
+        try {
+            Optional<TFG> _tfg = tfgRepository.findById(tfgId);
+            if (_tfg.isPresent()) {
+                TFG tfg = _tfg.get();
+                TFG updatedTFG = new TFG(tfgId, tfg.getTitle(), tfg.getStudentId(), tfg.getDirectorId(), "READ_APPROVED");
+                tfgRepository.save(updatedTFG);
+                return new ResponseEntity<>(updatedTFG, HttpStatus.ACCEPTED);
+            } else {
+                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
+    @PutMapping("/tfgs/{tfgId}/rejectRead")
+    public ResponseEntity<TFG> rejectFGRead(@PathVariable("tfgId") long tfgId) {
+        try {
+            Optional<TFG> _tfg = tfgRepository.findById(tfgId);
+            if (_tfg.isPresent()) {
+                TFG tfg = _tfg.get();
+                TFG updatedTFG = new TFG(tfgId, tfg.getTitle(), tfg.getStudentId(), tfg.getDirectorId(), "READ_REJECTED");
                 tfgRepository.save(updatedTFG);
                 return new ResponseEntity<>(updatedTFG, HttpStatus.ACCEPTED);
             } else {
